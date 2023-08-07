@@ -18,7 +18,7 @@ public class PineconeClient : RestClient
         return SerializationExtensions.DeserializeResponseContent<T>(response.Content);
     }
 
-    private async Task<RestResponse> ExecuteWithHandling(RestRequest request)
+    public async Task<RestResponse> ExecuteWithHandling(RestRequest request)
     {
         var response = await ExecuteAsync(request);
         
@@ -31,6 +31,10 @@ public class PineconeClient : RestClient
     private Exception ConfigureErrorException(string responseContent)
     {
         var error = SerializationExtensions.DeserializeResponseContent<ErrorDto>(responseContent);
-        return new(error.Message);
+        
+        if (error != null)
+            return new(error.Message);
+
+        return new(responseContent);
     }
 }
