@@ -71,7 +71,7 @@ public class VectorActions
             input.Namespace
         });
         
-        await client.ExecuteWithHandling<object>(request);
+        await client.ExecuteWithHandling(request);
         return new UpsertVectorResponse { VectorId = vectorId };
     }
     
@@ -89,7 +89,7 @@ public class VectorActions
             input.Namespace
         });
 
-        await client.ExecuteWithHandling<object>(request);
+        await client.ExecuteWithHandling(request);
     }
     
     [Action("Delete all vectors in namespace", Description = "Delete all vectors in the index namespace.")]
@@ -106,6 +106,6 @@ public class VectorActions
             input.Namespace
         });
 
-        await client.ExecuteWithHandling<object>(request);
+        await client.ExecuteWithHandling(request);
     }
 }
