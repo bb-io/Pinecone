@@ -37,7 +37,7 @@ public class IndexActions
         var request = new PineconeRequest("/databases", Method.Post, authenticationCredentialsProviders);
         request.AddJsonBody(new
         {
-            input.Name,
+            Name = input.Name.ToLower(),
             input.Dimension,
             Metric = input.Metric ?? "cosine",
             Pods = input.PodsNumber,
