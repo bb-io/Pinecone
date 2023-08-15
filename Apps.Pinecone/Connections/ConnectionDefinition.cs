@@ -3,7 +3,7 @@ using Blackbird.Applications.Sdk.Common.Connections;
 
 namespace Apps.Pinecone.Connections;
 
-public class ConnectionDefinition
+public class ConnectionDefinition : IConnectionDefinition
 {
     public IEnumerable<ConnectionPropertyGroup> ConnectionPropertyGroups => new List<ConnectionPropertyGroup>
     {
