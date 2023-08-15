@@ -13,7 +13,7 @@ public class IndexOperationsBaseUrlBuilder : IBaseUrlBuilder
 
     public Uri BuildBaseUrl()
     {
-        var environment = _authenticationCredentialsProviders.First(p => p.KeyName == "Environment");
+        var environment = _authenticationCredentialsProviders.First(p => p.KeyName == "Environment").Value;
         var baseUrl = $"https://controller.{environment}.pinecone.io";
         return new Uri(baseUrl);
     }

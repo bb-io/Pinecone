@@ -6,10 +6,7 @@ public class QueryRequest
 {
     [Display("Index name")] 
     public string IndexName { get; set; }
-    
-    [Display("Project ID")] 
-    public string ProjectId { get; set; }
-    
+
     [Display("Query vector")]
     public float[] Vector { get; set; }
     

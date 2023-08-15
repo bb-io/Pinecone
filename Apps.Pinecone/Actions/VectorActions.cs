@@ -16,7 +16,7 @@ public class VectorActions
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] QueryRequest input)
     {
-        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, input.ProjectId, authenticationCredentialsProviders);
+        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/query", Method.Post, authenticationCredentialsProviders);
         request.AddJsonBody(new
@@ -36,7 +36,7 @@ public class VectorActions
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] FetchVectorRequest input)
     {
-        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, input.ProjectId, authenticationCredentialsProviders);
+        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest($"/vectors/fetch?ids={input.VectorId}&namespace={input.Namespace ?? ""}", 
             Method.Get, authenticationCredentialsProviders);
@@ -54,7 +54,7 @@ public class VectorActions
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] UpsertVectorRequest input)
     {
-        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, input.ProjectId, authenticationCredentialsProviders);
+        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/vectors/upsert", Method.Post, authenticationCredentialsProviders);
         var vectorId = Guid.NewGuid().ToString();
@@ -80,7 +80,7 @@ public class VectorActions
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] DeleteVectorRequest input)
     {
-        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, input.ProjectId, authenticationCredentialsProviders);
+        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/vectors/delete", Method.Post, authenticationCredentialsProviders);
         request.AddJsonBody(new
@@ -97,7 +97,7 @@ public class VectorActions
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] DeleteAllVectorsInNamespaceRequest input)
     {
-        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, input.ProjectId, authenticationCredentialsProviders);
+        var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/vectors/delete", Method.Post, authenticationCredentialsProviders);
         request.AddJsonBody(new
