@@ -1,4 +1,6 @@
-﻿using Blackbird.Applications.Sdk.Common;
+﻿using Apps.Pinecone.DataSourceHandlers;
+using Blackbird.Applications.Sdk.Common;
+using Blackbird.Applications.Sdk.Common.Dynamic;
 
 namespace Apps.Pinecone.Models.Index.Requests;
 
@@ -8,7 +10,7 @@ public class CreateIndexRequest
     
     public int Dimension { get; set; }
     
-    [Display("Metric: euclidean/cosine/dotproduct")]
+    [DataSource(typeof(MetricDataSourceHandler))]
     public string? Metric { get; set; }
     
     [Display("Number of pods")]
@@ -18,8 +20,10 @@ public class CreateIndexRequest
     public int? NumberOfReplicas { get; set; }
     
     [Display("Pod type")]
+    [DataSource(typeof(PodTypeDataSourceHandler))]
     public string? PodType { get; set; }
-    
+
     [Display("Source collection")]
+    [DataSource(typeof(CollectionDataSourceHandler))]
     public string? SourceCollection { get; set; }
 }

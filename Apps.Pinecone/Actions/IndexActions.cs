@@ -1,10 +1,12 @@
-﻿using Apps.Pinecone.Dtos;
+﻿using Apps.Pinecone.DataSourceHandlers;
+using Apps.Pinecone.Dtos;
 using Apps.Pinecone.Models.Index.Requests;
 using Apps.Pinecone.Models.Index.Responses;
 using Apps.Pinecone.UrlBuilders;
 using Blackbird.Applications.Sdk.Common;
 using Blackbird.Applications.Sdk.Common.Actions;
 using Blackbird.Applications.Sdk.Common.Authentication;
+using Blackbird.Applications.Sdk.Common.Dynamic;
 using RestSharp;
 
 namespace Apps.Pinecone.Actions;
@@ -51,7 +53,7 @@ public class IndexActions
     [Action("Describe index", Description = "Get a description of an index by its name.")]
     public async Task<IndexDto> DescribeIndex(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
-        [ActionParameter] [Display("Index name")] string indexName)
+        [ActionParameter] [Display("Index name")] [DataSource(typeof(IndexDataSourceHandler))] string indexName)
     {
         var urlBuilder = new IndexOperationsBaseUrlBuilder(authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
@@ -92,7 +94,7 @@ public class IndexActions
     [Action("Delete index", Description = "Delete an existing index by its name.")]
     public async Task DeleteIndex(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
-        [ActionParameter] [Display("Index name")] string indexName)
+        [ActionParameter] [Display("Index name")] [DataSource(typeof(IndexDataSourceHandler))] string indexName)
     {
         var urlBuilder = new IndexOperationsBaseUrlBuilder(authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
@@ -136,7 +138,7 @@ public class IndexActions
     [Action("Describe collection", Description = "Get a description of a collection by its name.")]
     public async Task<CollectionDto> DescribeCollection(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
-        [ActionParameter] [Display("Collection name")] string collectionName)
+        [ActionParameter] [Display("Collection name")] [DataSource(typeof(CollectionDataSourceHandler))] string collectionName)
     {
         var urlBuilder = new IndexOperationsBaseUrlBuilder(authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
@@ -148,7 +150,7 @@ public class IndexActions
     [Action("Delete collection", Description = "Delete an existing collection by its name.")]
     public async Task DeleteCollection(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
-        [ActionParameter] [Display("Collection name")] string collectionName)
+        [ActionParameter] [Display("Collection name")] [DataSource(typeof(CollectionDataSourceHandler))] string collectionName)
     {
         var urlBuilder = new IndexOperationsBaseUrlBuilder(authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
