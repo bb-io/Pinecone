@@ -28,16 +28,17 @@ public class IndexActions
     }
     
     [Action("Create index", Description = "Create a new index.")]
-    public async Task<IndexDto> CreateIndex(
+    public async Task<IndexResponse> CreateIndex(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] CreateIndexRequest input)
     {
         var urlBuilder = new IndexOperationsBaseUrlBuilder(authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/databases", Method.Post, authenticationCredentialsProviders);
+        var indexName = input.Name.ToLower();
         request.AddJsonBody(new
         {
-            Name = input.Name.ToLower(),
+            Name = indexName,
             input.Dimension,
             Metric = input.Metric ?? "cosine",
             Pods = input.PodsNumber,
@@ -47,7 +48,7 @@ public class IndexActions
         });
 
         await client.ExecuteWithHandling(request);
-        return new IndexDto { Name = input.Name };
+        return new IndexResponse { IndexName = indexName };
     }
     
     [Action("Describe index", Description = "Get a description of an index by its name.")]
@@ -74,7 +75,7 @@ public class IndexActions
     }
     
     [Action("Configure index", Description = "Specify the pod type and/or number of replicas for an index.")]
-    public async Task<IndexDto> ConfigureIndex(
+    public async Task<IndexResponse> ConfigureIndex(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] ConfigureIndexRequest input)
     {
@@ -88,7 +89,7 @@ public class IndexActions
         });
         
         await client.ExecuteWithHandling(request);
-        return new IndexDto { Name = input.IndexName };
+        return new IndexResponse { IndexName = input.IndexName };
     }
     
     [Action("Delete index", Description = "Delete an existing index by its name.")]
@@ -118,7 +119,7 @@ public class IndexActions
     }
     
     [Action("Create collection", Description = "Create a collection from index.")]
-    public async Task<CollectionDto> CreateCollection(
+    public async Task<CreateCollectionResponse> CreateCollection(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] CreateCollectionRequest input)
     {
@@ -132,7 +133,7 @@ public class IndexActions
         });
         
         await client.ExecuteWithHandling(request);
-        return new CollectionDto { Name = input.CollectionName };
+        return new CreateCollectionResponse { CollectionName = input.CollectionName };
     }
     
     [Action("Describe collection", Description = "Get a description of a collection by its name.")]
