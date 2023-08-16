@@ -57,14 +57,13 @@ public class VectorActions
         var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/vectors/upsert", Method.Post, authenticationCredentialsProviders);
-        var vectorId = Guid.NewGuid().ToString();
         request.AddJsonBody(new
         {
             Vectors = new[]
             {
                 new
                 {
-                    Id = vectorId,
+                    Id = input.VectorId,
                     Values = input.Vector
                 }
             },
@@ -72,7 +71,7 @@ public class VectorActions
         });
         
         await client.ExecuteWithHandling(request);
-        return new UpsertVectorResponse { VectorId = vectorId };
+        return new UpsertVectorResponse { VectorId = input.VectorId };
     }
     
     [Action("Delete vector", Description = "Delete vector by its ID.")]

@@ -11,7 +11,7 @@ public class QueryRequest
     public string IndexName { get; set; }
 
     [Display("Query vector")]
-    public float[] Vector { get; set; }
+    public IEnumerable<float> Vector { get; set; }
     
     [Display("Number of most relevant results to return")]
     public int TopK { get; set; }

@@ -10,7 +10,10 @@ public class UpsertVectorRequest
     [DataSource(typeof(IndexDataSourceHandler))]
     public string IndexName { get; set; }
 
-    public float[] Vector { get; set; }
+    [Display("Vector ID")]
+    public string VectorId { get; set; }
+    
+    public IEnumerable<float> Vector { get; set; }
     
     public string? Namespace { get; set; }
 }
