@@ -15,5 +15,8 @@ public class UpsertVectorRequest
     
     public IEnumerable<float> Vector { get; set; }
     
+    [Display("Metadata in JSON format")]
+    public string? JsonMetadata { get; set; }
+    
     public string? Namespace { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using Apps.Pinecone.Models.Vector.Requests;
+﻿using Apps.Pinecone.Extensions;
+using Apps.Pinecone.Models.Vector.Requests;
 using Apps.Pinecone.Models.Vector.Responses;
 using Apps.Pinecone.UrlBuilders;
 using Blackbird.Applications.Sdk.Common;
@@ -16,6 +17,9 @@ public class VectorActions
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] QueryRequest input)
     {
+        if (input.FilterJsonMetadata != null && !input.FilterJsonMetadata.IsValidJson())
+            throw new Exception("Metadata must be in JSON format. Example of valid JSON: { \"key\": \"value\", \"key2\": \"value2\" }");
+
         var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/query", Method.Post, authenticationCredentialsProviders);
@@ -24,7 +28,9 @@ public class VectorActions
             input.Namespace,
             input.TopK,
             input.IncludeValues,
-            input.Vector
+            input.IncludeMetadata,
+            input.Vector,
+            Filter = input.FilterJsonMetadata?.DeserializeContent<Dictionary<string, object>>()
         });
         
         var response = await client.ExecuteWithHandling<QueryResponse>(request);
@@ -48,12 +54,15 @@ public class VectorActions
 
         return response;
     }
-    
+
     [Action("Upsert vector", Description = "Upsert the vector.")]
     public async Task<UpsertVectorResponse> UpsertVector(
         IEnumerable<AuthenticationCredentialsProvider> authenticationCredentialsProviders,
         [ActionParameter] UpsertVectorRequest input)
     {
+        if (input.JsonMetadata != null && !input.JsonMetadata.IsValidJson())
+            throw new Exception("Metadata must be in JSON format. Example of valid JSON: { \"key\": \"value\", \"key2\": \"value2\" }");
+
         var urlBuilder = new VectorOperationsBaseUrlBuilder(input.IndexName, authenticationCredentialsProviders);
         var client = new PineconeClient(urlBuilder);
         var request = new PineconeRequest("/vectors/upsert", Method.Post, authenticationCredentialsProviders);
@@ -64,7 +73,8 @@ public class VectorActions
                 new
                 {
                     Id = input.VectorId,
-                    Values = input.Vector
+                    Values = input.Vector,
+                    Metadata = input.JsonMetadata?.DeserializeContent<Dictionary<string, object>>()
                 }
             },
             input.Namespace

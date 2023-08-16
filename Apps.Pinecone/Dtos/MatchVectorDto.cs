@@ -1,4 +1,6 @@
-﻿using Blackbird.Applications.Sdk.Common;
+﻿using Apps.Pinecone.Converters;
+using Blackbird.Applications.Sdk.Common;
+using Newtonsoft.Json;
 
 namespace Apps.Pinecone.Dtos;
 
@@ -11,4 +13,7 @@ public class MatchVectorDto
     
     [Display("Vector")]
     public float[] Values { get; set; }
+    
+    [JsonConverter(typeof(ObjectToStringConverter))]
+    public string? Metadata { get; set; }
 }
