@@ -48,6 +48,7 @@ public class IndexActions
         });
 
         await client.ExecuteWithHandling(request);
+        await Task.Delay(TimeSpan.FromSeconds(60));
         return new IndexResponse { IndexName = indexName };
     }
     
