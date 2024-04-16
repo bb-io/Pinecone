@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <Product>Pinecone</Product>
     <Description>Managed, cloud-native vector database that simplifies the integration of long-term memory into AI applications</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <AssemblyName>Apps.Pinecone</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
