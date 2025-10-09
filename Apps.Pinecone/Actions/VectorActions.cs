@@ -9,7 +9,7 @@ using RestSharp;
 
 namespace Apps.Pinecone.Actions;
 
-[ActionList]
+[ActionList("Vector")]
 public class VectorActions
 {
     [Action("Query", Description = "Using the query vector, retrieve the most similar vectors to it.")]
