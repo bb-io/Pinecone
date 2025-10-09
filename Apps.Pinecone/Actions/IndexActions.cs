@@ -11,7 +11,7 @@ using RestSharp;
 
 namespace Apps.Pinecone.Actions;
 
-[ActionList]
+[ActionList("Index")]
 public class IndexActions
 {
     #region Indexes
